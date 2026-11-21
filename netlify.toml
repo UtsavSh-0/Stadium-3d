@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  # Nitro's "netlify" preset writes static assets to dist/ and the SSR
+  # function to .netlify/functions-internal/server (picked up automatically).
+  publish = "dist"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
