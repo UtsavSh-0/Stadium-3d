@@ -1,6 +1,6 @@
 import { Component, Suspense, useEffect, useRef, useState, type ReactNode } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { CameraControls, Environment, Lightformer, PerformanceMonitor, Stars } from "@react-three/drei";
+import { CameraControls, CameraControlsImpl, Environment, Lightformer, PerformanceMonitor, Stars } from "@react-three/drei";
 import { Bloom, EffectComposer, Vignette } from "@react-three/postprocessing";
 import * as THREE from "three";
 import { Stadium } from "./Stadium";
@@ -148,10 +148,17 @@ function CameraRig({ view, cameraTarget, onFlightEnd, device }: { view: ViewKey;
       smoothTime={device === "mobile" ? 0.5 : 0.35}
       draggingSmoothTime={device === "mobile" ? 0.25 : 0.15}
       // Touch-friendly settings for mobile/tablet
-      enableRotate={true}
-      enablePan={device !== "mobile"}
-      enableZoom={true}
-      pinchRotate={device === "mobile"}
+      mouseButtons={{
+        left: CameraControlsImpl.ACTION.ROTATE,
+        middle: CameraControlsImpl.ACTION.DOLLY,
+        right: CameraControlsImpl.ACTION.TRUCK,
+        wheel: CameraControlsImpl.ACTION.DOLLY,
+      }}
+      touches={{
+        one: CameraControlsImpl.ACTION.TOUCH_ROTATE,
+        two: device === "mobile" ? CameraControlsImpl.ACTION.TOUCH_DOLLY_ROTATE : CameraControlsImpl.ACTION.TOUCH_DOLLY_TRUCK,
+        three: device === "mobile" ? CameraControlsImpl.ACTION.NONE : CameraControlsImpl.ACTION.TOUCH_TRUCK,
+      }}
     />
   );
 }
@@ -209,20 +216,33 @@ function ReadySignal({ onReady }: { onReady: () => void }) {
   return null;
 }
 
-class CanvasBoundary extends Component<{ children: ReactNode }, { error: string | null }> {
+class CanvasBoundary extends Component<{ children: ReactNode; onError: (error: Error) => void }, { error: string | null }> {
   override state = { error: null as string | null };
   static getDerivedStateFromError(e: Error) {
     return { error: e.message };
+  }
+  override componentDidCatch(error: Error) {
+    console.error("The stadium renderer failed to start.", error);
+    this.props.onError(error);
   }
   override render() {
     if (this.state.error)
       return (
         <div className="absolute inset-0 flex items-center justify-center p-8 text-center text-muted-foreground">
-          The 3D stadium couldn't start on this device ({this.state.error}). Try a recent desktop browser.
+          The 3D stadium couldn't start on this device ({this.state.error}). You can still browse matches and choose seats from the list.
         </div>
       );
     return this.props.children;
   }
+}
+
+function WebGLFallback({ onReady }: { onReady: () => void }) {
+  useEffect(onReady, [onReady]);
+  return (
+    <div className="canvas-loading" role="status">
+      WebGL is unavailable. You can still browse matches and choose seats from the list.
+    </div>
+  );
 }
 
 export default function StadiumCanvas({ view, onReady, interaction, cameraTarget, lounge = false }: { view: ViewKey; onReady: () => void; interaction?: StadiumInteraction; cameraTarget?: CameraTarget; lounge?: boolean }) {
@@ -252,12 +272,13 @@ export default function StadiumCanvas({ view, onReady, interaction, cameraTarget
     return () => mql.removeEventListener('change', updateDevice);
   }, []);
   return (
-    <CanvasBoundary>
+    <CanvasBoundary onError={() => onReady()}>
       <Canvas
         frameloop="demand"
         shadows={device === "desktop"}
         dpr={[1, dpr]}
         camera={{ fov: device === "mobile" ? 45 : 42, near: 0.4, far: 2000, position: INTRO_POS }}
+        fallback={<WebGLFallback onReady={onReady} />}
         gl={{
           antialias: device !== "mobile",
           powerPreference: device === "mobile" ? "low-power" : "high-performance",

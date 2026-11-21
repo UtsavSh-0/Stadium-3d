@@ -7,7 +7,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "build:dev": "vite build --mode development",
-    "preview": "vite preview",
+    "preview": "srvx serve --prod --dir=.vercel/output/functions/__server.func --static=../../static --entry=index.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",

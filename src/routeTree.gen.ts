@@ -16,8 +16,10 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as MatchdayRouteImport } from './routes/matchday'
 import { Route as MatchesRouteImport } from './routes/matches'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as SelectSeatRouteImport } from './routes/select-seat'
 import { Route as StadiumRouteImport } from './routes/stadium'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as VipRouteImport } from './routes/vip'
@@ -57,6 +59,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MatchdayRoute = MatchdayRouteImport.update({
+  id: '/matchday',
+  path: '/matchday',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MatchesRoute = MatchesRouteImport.update({
   id: '/matches',
   path: '/matches',
@@ -65,6 +72,11 @@ const MatchesRoute = MatchesRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SelectSeatRoute = SelectSeatRouteImport.update({
+  id: '/select-seat',
+  path: '/select-seat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StadiumRoute = StadiumRouteImport.update({
@@ -91,8 +103,10 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/login': typeof LoginRoute
+  '/matchday': typeof MatchdayRoute
   '/matches': typeof MatchesRoute
   '/privacy': typeof PrivacyRoute
+  '/select-seat': typeof SelectSeatRoute
   '/stadium': typeof StadiumRoute
   '/terms': typeof TermsRoute
   '/vip': typeof VipRoute
@@ -105,8 +119,10 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/login': typeof LoginRoute
+  '/matchday': typeof MatchdayRoute
   '/matches': typeof MatchesRoute
   '/privacy': typeof PrivacyRoute
+  '/select-seat': typeof SelectSeatRoute
   '/stadium': typeof StadiumRoute
   '/terms': typeof TermsRoute
   '/vip': typeof VipRoute
@@ -120,8 +136,10 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/login': typeof LoginRoute
+  '/matchday': typeof MatchdayRoute
   '/matches': typeof MatchesRoute
   '/privacy': typeof PrivacyRoute
+  '/select-seat': typeof SelectSeatRoute
   '/stadium': typeof StadiumRoute
   '/terms': typeof TermsRoute
   '/vip': typeof VipRoute
@@ -136,8 +154,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faqs'
     | '/login'
+    | '/matchday'
     | '/matches'
     | '/privacy'
+    | '/select-seat'
     | '/stadium'
     | '/terms'
     | '/vip'
@@ -150,8 +170,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faqs'
     | '/login'
+    | '/matchday'
     | '/matches'
     | '/privacy'
+    | '/select-seat'
     | '/stadium'
     | '/terms'
     | '/vip'
@@ -164,8 +186,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faqs'
     | '/login'
+    | '/matchday'
     | '/matches'
     | '/privacy'
+    | '/select-seat'
     | '/stadium'
     | '/terms'
     | '/vip'
@@ -179,8 +203,10 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   FaqsRoute: typeof FaqsRoute
   LoginRoute: typeof LoginRoute
+  MatchdayRoute: typeof MatchdayRoute
   MatchesRoute: typeof MatchesRoute
   PrivacyRoute: typeof PrivacyRoute
+  SelectSeatRoute: typeof SelectSeatRoute
   StadiumRoute: typeof StadiumRoute
   TermsRoute: typeof TermsRoute
   VipRoute: typeof VipRoute
@@ -237,6 +263,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/matchday': {
+      id: '/matchday'
+      path: '/matchday'
+      fullPath: '/matchday'
+      preLoaderRoute: typeof MatchdayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/matches': {
       id: '/matches'
       path: '/matches'
@@ -249,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/select-seat': {
+      id: '/select-seat'
+      path: '/select-seat'
+      fullPath: '/select-seat'
+      preLoaderRoute: typeof SelectSeatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stadium': {
@@ -283,8 +323,10 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   FaqsRoute: FaqsRoute,
   LoginRoute: LoginRoute,
+  MatchdayRoute: MatchdayRoute,
   MatchesRoute: MatchesRoute,
   PrivacyRoute: PrivacyRoute,
+  SelectSeatRoute: SelectSeatRoute,
   StadiumRoute: StadiumRoute,
   TermsRoute: TermsRoute,
   VipRoute: VipRoute,
