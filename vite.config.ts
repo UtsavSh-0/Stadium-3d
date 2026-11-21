@@ -15,8 +15,9 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
-  // Vercel deployment preset
+  // Build for Netlify when running in Netlify's build environment; keep the
+  // Vercel preset everywhere else so existing Vercel deploys are unchanged.
   nitro: {
-    preset: "vercel",
+    preset: process.env.NETLIFY ? "netlify" : "vercel",
   },
 });
