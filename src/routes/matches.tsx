@@ -1,0 +1,12 @@
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
+import { SlidersHorizontal, Info } from 'lucide-react';
+import { MatchCard } from '@/booking/MatchCard';
+import { matches } from '@/booking/inventory';
+import { pageHead } from '@/booking/metadata';
+export const Route = createFileRoute('/matches')({ head: () => pageHead('Select your match', 'Choose your match at OMNYA LAB STADIUM and explore seats in 3D. Clearly labelled demo football fixtures.'), component: Matches });
+function Matches() {
+  const [competition, setCompetition] = useState('all'); const [team, setTeam] = useState('all'); const [date, setDate] = useState('');
+  const filtered = matches.filter(m => (competition === 'all' || m.competition === competition) && (team === 'all' || m.home === team || m.away === team) && (!date || m.date === date));
+  return <div className="page-container pb-16"><div className="page-intro"><div className="eyebrow">01 / CHOOSE YOUR MATCH</div><h1 className="display-heading page-title">PICK YOUR MOMENT.</h1><p className="text-sm text-muted-foreground mt-4">The atmosphere is waiting. Find your match and make it unforgettable.</p><p className="demo-note mt-5"><Info size={12} />Editable demo fixtures and fictional teams. No live match data connected.</p></div><div className="filters"><SlidersHorizontal size={17} className="text-muted-foreground" /><span className="text-xs font-semibold mr-3">Upcoming matches</span><select className="filter-select" aria-label="Competition" value={competition} onChange={e => setCompetition(e.target.value)}><option value="all">All competitions</option><option>Stadium Invitational</option><option>Winter Cup</option></select><select className="filter-select" aria-label="Team" value={team} onChange={e => setTeam(e.target.value)}><option value="all">All teams</option><option>OMNYA FC</option><option>LAB UNITED</option></select><input className="filter-select" type="date" aria-label="Match date" value={date} onChange={e => setDate(e.target.value)} /></div><div className="match-grid">{filtered.map(match => <MatchCard key={match.id} match={match} />)}</div>{!filtered.length && <p className="text-muted-foreground py-12 text-center">No matches on this date or in this competition.</p>}</div>;
+}

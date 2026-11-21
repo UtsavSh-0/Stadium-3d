@@ -1,0 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
+import { pageHead } from '@/booking/metadata';
+export const Route = createFileRoute('/contact')({ head: () => pageHead('Contact', 'Contact for OMNYA LAB STADIUM and its clearly labelled demo football booking experience.'), component: Page });
+function Page() { return <div className="page-container"><div className="page-intro"><div className="eyebrow">OMNYA LAB STADIUM</div><h1 className="display-heading page-title">LET’S TALK MATCH DAY.</h1></div><div className="legal-copy"><section><h2>Contact information</h2><p>Official contact details have not yet been supplied. This preview is a demo and cannot handle real ticketing or match-day enquiries.</p></section><section><h2>Booking questions</h2><p>Visit the FAQs for information about demo seats, reservations and 3D seat previews.</p></section></div></div>; }

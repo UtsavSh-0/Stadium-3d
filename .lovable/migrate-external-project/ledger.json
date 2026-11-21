@@ -1,0 +1,11 @@
+{
+  "source": "code-archive",
+  "capabilities": [
+    {"capability":"Original procedural Three.js stadium", "source":"src/stadium", "outcome":"Original geometry preserved and extended with inventory interaction", "status":"verified", "next_action":"None"},
+    {"capability":"Database, records, auth identities and uploaded file bytes", "source":"Source inspection: absent", "outcome":"No existing services or records detected", "status":"not_applicable", "next_action":"Clearly label new booking inventory as demo"},
+    {"capability":"External providers, public endpoints, callbacks, webhooks, schedules and secrets", "source":"Source callsite inspection: absent", "outcome":"No production integration detected", "status":"not_applicable", "next_action":"None"},
+    {"capability":"Booking routes and seat preview", "source":"Uploaded upgrade brief", "outcome":"Demo journey verified from homepage through match selection, individual seats, exact seat preview, executive selection and checkout confirmation with no browser errors", "status":"verified", "next_action":"None for demo mode"},
+    {"capability":"Live ticket sales", "source":"Brief allows clearly labelled demo booking when no live service is connected", "outcome":"Demo only; no live match feed, shared atomic inventory, payment collection or ticket delivery", "status":"not_applicable", "next_action":"Connect live services before accepting real bookings"},
+    {"capability":"Cutover", "source":"Unpublished project", "outcome":"No external cutover required", "status":"not_applicable", "next_action":"None"}
+  ]
+}
